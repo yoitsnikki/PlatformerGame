@@ -14,7 +14,7 @@ public class Player {
 	public int horizontalCoord;
 	public boolean isAlive;
 	
-	public Player() {
+public Player() {
         this.score = 0;
         this.coins = 0;
         this.jumpDist = 0;
