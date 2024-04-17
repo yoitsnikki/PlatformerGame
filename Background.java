@@ -46,7 +46,7 @@ public class Background extends JPanel{
     }
     
     // draw clouds
-    private void drawClouds(Graphics g) {
+    public void drawClouds(Graphics g) {
         for (Cloud cloud : clouds) {
             cloud.drawCloud(g);
         }
@@ -57,27 +57,22 @@ public class Background extends JPanel{
         setBackground(SKY_BLUE);
         clouds = new ArrayList<>();
         generateClouds();
-        
     }
-
+ 
     // override and draw clouds when panel is painted
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawClouds(g);
+        platformCanvas platforms = new platformCanvas();
+        platformCanvas.drawRectangle(g);
+        
+        //Rockets rockets = new Rockets();
+        //Rockets.mainRockets(g);
+
     }
     
+   
     
-    // test
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Background Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000,1000);
-        Background background = new Background();
-        frame.add(background);
-        frame.setVisible(true);
-     
-    }
-	
 
 }
