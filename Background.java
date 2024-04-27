@@ -7,11 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 public class Background extends JPanel{
+    platformCanvas platforms = new platformCanvas();
+
 	public ArrayList<Cloud> clouds;
     private static final Color SKY_BLUE = new Color(135, 206, 235);
-    
     // creating clouds
     private static class Cloud {
         int x;
@@ -51,28 +53,49 @@ public class Background extends JPanel{
             cloud.drawCloud(g);
         }
     }
-    
     // create the background
     public Background() {
         setBackground(SKY_BLUE);
         clouds = new ArrayList<>();
         generateClouds();
+        Timer time = new Timer(1000, new TimerCallback());
+        time.start();
+        Timer moveRocket = new Timer(20, new TimerCallback2());
+        Timer addRocket = new Timer(5000, new TimerCallback3());
+        moveRocket.start();
+        addRocket.start();
+        Rocket.addRocket(); //sends the first wave of rockets ahead of the timer
+
     }
- 
+
     // override and draw clouds when panel is painted
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawClouds(g);
-        platformCanvas platforms = new platformCanvas();
-        platformCanvas.drawRectangle(g);
-        
-        //Rockets rockets = new Rockets();
-        //Rockets.mainRockets(g);
-
+        platforms.drawRectangle(g);
+        Rocket.drawRockets(g);
     }
-    
-   
-    
-
+    protected class TimerCallback implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+            Color c2 = new Color(255, 255, 0);
+            platformCanvas.setColor(c2);
+          //  platforms.setYCoord(200);
+            repaint();
+        }
+    }
+    protected class TimerCallback2 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+            for (Rocket rocket : Rocket.rockets) {
+                rocket.move();
+            }
+            repaint();
+        }
+    }
+    protected class TimerCallback3  implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+            Rocket.addRocket();
+            repaint();
+        }
+    }
 }
