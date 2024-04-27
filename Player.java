@@ -4,6 +4,14 @@
  */
 
 import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.*;
+
+
+/**
+ * Class Player
+ */
 
 public class Player {
 	public int score;
@@ -14,7 +22,7 @@ public class Player {
 	public int horizontalCoord;
 	public boolean isAlive;
 	
-public Player() {
+	public Player() {
         this.score = 0;
         this.coins = 0;
         this.jumpDist = 0;
@@ -77,6 +85,105 @@ public Player() {
     // get coins
     public int getCoins() {
         return coins;
+    }
+
+    
+    // key presses
+    public void keyPressed (KeyEvent e) {
+    	int keyCode = e.getKeyCode();
+        int moveDistance = 10; // dist the player moves when key is pressed
+        
+     // check which arrow key was pressed
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                moveUp(moveDistance);
+                break;
+            case KeyEvent.VK_DOWN:
+                moveDown(moveDistance);
+                break;
+            case KeyEvent.VK_LEFT:
+                moveLeft(moveDistance);
+                break;
+            case KeyEvent.VK_RIGHT:
+                moveRight(moveDistance);
+                break;
+        }
+        
+    }
+    
+    public void keyReleased(KeyEvent e) {
+        // handle key releases
+    }
+    
+    // move up
+    private void moveUp(int distance) {
+    	int playerRadius = getPlayerRadius();
+        verticalCoord -= distance;
+        jump(distance);
+        
+        // player bounces off of wall if necessary
+        if (verticalCoord - playerRadius < 0) {
+            verticalCoord = playerRadius;
+        }
+        
+        updatePosition(0, 10); // update position coordinates that are returned
+    }
+    
+    // move down
+    private void moveDown(int distance) {
+        int playerRadius = getPlayerRadius();
+        verticalCoord += distance;
+        jump(distance);
+        
+        // player bounces off of wall if necessary
+        if (verticalCoord + playerRadius > 1000) {
+            verticalCoord = 1000 - playerRadius;
+        }
+        
+        updatePosition(0, -10); // update position coordinates that are returned
+        
+    }
+    
+    // move left
+    private void moveLeft(int distance) {
+        int playerRadius = getPlayerRadius();
+        horizontalCoord -= distance;
+        jump(distance);
+        
+        // player bounces off of wall if necessary
+        if (horizontalCoord - playerRadius < 0) {
+            horizontalCoord = playerRadius;
+        }
+        
+        updatePosition(-10, 0); // update position coordinates that are returned
+    }
+    
+    // move right
+    private void moveRight(int distance) {
+        int playerRadius = getPlayerRadius();
+        horizontalCoord += distance;
+        jump(distance);
+        
+        // player bounces off of wall if necessary
+        if (horizontalCoord + playerRadius > 1000) {
+            horizontalCoord = 1000 - playerRadius;
+        }
+        
+        updatePosition(10, 0); // update position coordinates that are returned
+    }
+    
+    // get player radius
+    private int getPlayerRadius() {
+        return 10;
+    }
+    
+    public void draw (Graphics g) {
+    	int playerX = horizontalCoord;
+        int playerY = verticalCoord;
+        int playerRadius = 10; 
+        
+        g.setColor(Color.GREEN);
+        g.fillOval(playerX - playerRadius, playerY - playerRadius, 2 * playerRadius, 2 * playerRadius);
     }
     
 }
