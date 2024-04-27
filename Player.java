@@ -96,7 +96,7 @@ public class Player {
     }
     
     // move up
-    private void moveUp(int distance) {
+    public void moveUp(int distance) {
     	int playerRadius = getPlayerRadius();
         verticalCoord -= distance;
         jump(distance);
@@ -110,7 +110,7 @@ public class Player {
     }
     
     // move down
-    private void moveDown(int distance) {
+    public void moveDown(int distance) {
         int playerRadius = getPlayerRadius();
         verticalCoord += distance;
         jump(distance);
@@ -125,7 +125,7 @@ public class Player {
     }
     
     // move left
-    private void moveLeft(int distance) {
+    public void moveLeft(int distance) {
         int playerRadius = getPlayerRadius();
         horizontalCoord -= distance;
         jump(distance);
@@ -139,7 +139,7 @@ public class Player {
     }
     
     // move right
-    private void moveRight(int distance) {
+    public void moveRight(int distance) {
         int playerRadius = getPlayerRadius();
         horizontalCoord += distance;
         jump(distance);
