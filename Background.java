@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 public class Background extends JPanel implements KeyListener {
     platformCanvas platforms = new platformCanvas();
     Player player = new Player();
-
 	public ArrayList<Cloud> clouds;
     private static final Color SKY_BLUE = new Color(135, 206, 235);
     // creating clouds
@@ -71,6 +70,11 @@ public class Background extends JPanel implements KeyListener {
         moveRocket.start();
         addRocket.start();
         Rocket.addRocket();
+	//timer for updating time left and score
+	Timer timeElapsedTimerTimer = new Timer(1000, new timeElapsedTimerTimer());
+        timeElapsedTimerTimer.start();
+
+
 
         setFocusable(true); // Ensure the panel can receive key events
         addKeyListener(this);
@@ -88,6 +92,18 @@ public class Background extends JPanel implements KeyListener {
         platforms.drawRectangle(g);
         player.draw(g);
         Rocket.drawRockets(g);
+	ScoreAndTime.drawTime(g);
+        ScoreAndTime.drawScore(g);
+    }
+    protected class timeElapsedTimerTimer implements ActionListener {
+        static int totalTime = 120;
+        static int timeLeft;
+		public void actionPerformed(ActionEvent e) {
+            timeLeft = totalTime -1;
+            totalTime -=1;
+            ScoreAndTime timeElapsed = new ScoreAndTime(timeLeft,player.getScore());
+            repaint();
+        }
     }
 
 
