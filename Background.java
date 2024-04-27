@@ -100,6 +100,14 @@ public class Background extends JPanel implements KeyListener {
                 //if collision is detected then
                 if(m==true){
                     System.out.println("COLLISION");
+                    
+                    boolean side = player.collidesWithPlatformTop(platform);
+                    if (side == true) {
+                    	player.hitTopPlatform();
+                    } else {
+                    	player.hitBottomPlatform();
+                    }
+                    
                 }
             }
             repaint();
