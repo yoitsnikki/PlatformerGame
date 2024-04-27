@@ -13,6 +13,17 @@ import java.awt.geom.Rectangle2D;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+/**
+ * @drawCloud: draws the clouds with graphics
+ * @generateClouds: randomly generates the clouds and adds them to cloud array list
+ * @drawClouds: uses drawCloud to draw all the clouds generated into the cloud array list by generateClouds
+ * @Background: main class that generates the rockets, platforms, and timers
+ * @paintComponent: draws clouds, platforms, rockets
+ * @movePlatformsTimer: timer for the platforms to move across the screen
+ * @TimerCallback2: keeps the rockets moving across the screen
+ * @TimerCallback3: generates the rockets onto the screen
+ */
+
 public class Background extends JPanel implements KeyListener {
     platformCanvas platforms = new platformCanvas();
     Player player = new Player();
@@ -90,16 +101,16 @@ public class Background extends JPanel implements KeyListener {
         Rocket.drawRockets(g);
     }
 
-
+    //timer to keep platforms moving across the screen
     protected class movePlatformsTimer implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
             boolean m = false;
             platforms.updateY();
             for (Rectangle2D platform: platforms.platformsList){
                 m = player.collidesWithPlatform(platform);
+                
                 //if collision is detected then
                 if(m==true){
-                    System.out.println("COLLISION");
                     
                     boolean side = player.collidesWithPlatformTop(platform);
                     if (side == true) {
@@ -113,7 +124,8 @@ public class Background extends JPanel implements KeyListener {
             repaint();
         }
     }
-
+    
+    // moves the rockets across the screen
     protected class TimerCallback2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			boolean r = false;
@@ -121,7 +133,6 @@ public class Background extends JPanel implements KeyListener {
                 rocket.move();
                 r = player.collidesWithRocket(rocket);
                 if (r==true) {
-                	System.out.println("GAME OVER");
                 	player.hitObstacle();
                 }
                 
@@ -129,13 +140,14 @@ public class Background extends JPanel implements KeyListener {
             repaint();
         }
     }
+    
+    // adds the rockets to the screen
     protected class TimerCallback3  implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
             Rocket.addRocket();
             repaint();
         }
     }
-
 
     // key presses
     @Override
@@ -170,10 +182,5 @@ public class Background extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
         // Handle key typing
     }
-    // protected class displayTime  implements ActionListener {
-	// 	public void actionPerformed(ActionEvent e) {
-    //         Rocket.addRocket();
-    //         repaint();
-    //     }
-    // }
+    
 }
