@@ -1,29 +1,36 @@
-
-//random widthfor 2dRect
-//random xCoord iteration 
-
 import java.util.Random;
 public class Randomization {
-    static double randomWidth = 0; 
-    static double randomXCoord;
-    public static double randomWidth(){
-        final double limit = 100;
+    public static double movedCoord =0; 
+    //Upper and lower range for the intervals between platforms
+    final static double MaxInterval = 100;
+    final static double MinInterval = 20;
+
+    //Upper and lower range for the width of platforms
+    final static double MaxWidth = 300;
+    final static double MinWidth = 100;
+    
+    public static double randomInteval(){
         Random random = new Random();
-        double rand_double1 = random.nextDouble(400-limit)+limit;
-        randomWidth = rand_double1;
-        return rand_double1;
+        double interval = random.nextDouble(MaxInterval)+MinInterval;
+        return interval;
     }
-    public static double randomXCoord(){
+    public static double xCoordNext(double randomInteval, double width){
+        double xCoord = movedCoord+randomInteval;
+        movedCoord += (randomInteval+width);
+        return xCoord;
+    }
+    
+    public static double xCoordFirst(double randomInteval, double width){
+        double xCoord = 0+ randomInteval;
+        movedCoord = movedCoord + (xCoord+width);
+        return xCoord;
+    }
+    public static double width(){
         Random random = new Random();
-        //to make it dependent on the previous values
-        System.out.println(randomXCoord);
-       // double x = randomXCoord +10;
-//when + 10 it van be over 100
-        double rand_double2 = random.nextDouble(1000);
-        randomXCoord = rand_double2;
-        return rand_double2;
-    }   
+        double width = random.nextDouble(MaxWidth)+MinWidth;
+        return width;
+    }
     public static void setXCoord(double x){
-        randomXCoord = 0;
+        movedCoord = 0;
     }
 }
