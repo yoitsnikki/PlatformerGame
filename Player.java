@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
@@ -32,6 +33,23 @@ public class Player {
         this.radius = 10;
     }
 	
+	// getters
+	public double getVerticalCoord() {
+		return verticalCoord;
+	}
+	
+	public double getHorizontalCoord() {
+		return horizontalCoord;
+	}
+	
+    public int getScore() {
+        return score;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+	
 	// keep track of score (should points be part of player class, or separate?)
     public void updateScore(int points) {
         this.score += points;
@@ -42,6 +60,7 @@ public class Player {
         this.coins += collectedCoins;
     }
     
+    /*
     // jumping
     public void jump(int distance) {
         if (!isJumping) {
@@ -57,7 +76,7 @@ public class Player {
             this.isJumping = false;
             this.jumpDist = 0; // Reset jump distance
         }
-    }
+    }*/
     
     // hit an obstacle like a rocket
     public void hitObstacle() {
@@ -66,7 +85,13 @@ public class Player {
     
     // if player hits bottom of a platform
     public void hitBottomPlatform () {
-    	moveDown(2);
+    	moveDown(10);
+    }
+    
+    // if player hits top of a platform
+    public void hitTopPlatform () {
+    	moveUp(10);
+    	updateScore(10);
     }
     
     // update player position
@@ -82,21 +107,10 @@ public class Player {
         return isAlive;
     }
     
-    // get score
-    public int getScore() {
-        return score;
-    }
-
-    // get coins
-    public int getCoins() {
-        return coins;
-    }
-    
     // move down
     public void moveDown(int distance) {
     	int playerRadius = getPlayerRadius();
         verticalCoord += distance;
-        jump(distance);
         
         // player bounces off of wall if necessary
         if (verticalCoord - playerRadius < 0) {
@@ -110,7 +124,6 @@ public class Player {
     public void moveUp(int distance) {
         int playerRadius = getPlayerRadius();
         verticalCoord -= distance;
-        jump(distance);
         
         // player bounces off of wall if necessary
         if (verticalCoord + playerRadius > 1000) {
@@ -125,7 +138,6 @@ public class Player {
     public void moveLeft(int distance) {
         int playerRadius = getPlayerRadius();
         horizontalCoord -= distance;
-        jump(distance);
         
         // player bounces off of wall if necessary
         if (horizontalCoord - playerRadius < 0) {
@@ -139,7 +151,6 @@ public class Player {
     public void moveRight(int distance) {
         int playerRadius = getPlayerRadius();
         horizontalCoord += distance;
-        jump(distance);
         
         // player bounces off of wall if necessary
         if (horizontalCoord + playerRadius > 1000) {
@@ -168,18 +179,37 @@ public class Player {
         g.fillOval(playerX - radius, playerY - radius, 2 * radius, 2 * radius);
     }
     
+    // GENERAL PLATFORM INTERSECTION
     public boolean collidesWithPlatform(Rectangle2D platform) {
         Ellipse2D.Double playerBounds = getSphereBounds(); 
         Rectangle platformBounds = platform.getBounds();
         // Check if bounds intersect
         return playerBounds.intersects(platformBounds);
     }
+    
+    // WHICH SIDE OF THE PLATFORM IS THE HIT ON?
+    public boolean collidesWithPlatformTop(Rectangle2D platform) {
+        Ellipse2D.Double playerBounds = getSphereBounds(); 
+        Rectangle platformBounds = platform.getBounds();
+        
+        if (playerBounds.getCenterY() < platformBounds.getY()) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+    
+
+    // if player collides with a rocket
     public boolean collidesWithRocket(Rocket rocket) {
         Ellipse2D.Double playerBounds = getSphereBounds();
         Rectangle rocketBounds = rocket.getRocketBounds();
-    
-        // Check if bounds intersect
-        return playerBounds.intersects(rocketBounds);
-    }
+
+        if (playerBounds.intersects(rocketBounds)) {
+            hitObstacle();
+            return true;
+        }
+        return false;
+    } 
     
 }
