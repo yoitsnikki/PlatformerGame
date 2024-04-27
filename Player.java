@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
 
 
 /**
@@ -21,6 +22,7 @@ public class Player {
 	public int verticalCoord;
 	public int horizontalCoord;
 	public boolean isAlive;
+	public int radius;
 	
 	public Player() {
         this.score = 0;
@@ -30,6 +32,7 @@ public class Player {
         this.verticalCoord = 0;
         this.horizontalCoord = 0;
         this.isAlive = true;
+        this.radius = 10;
     }
 	
 	// keep track of score (should points be part of player class, or separate?)
@@ -174,16 +177,20 @@ public class Player {
     
     // get player radius
     private int getPlayerRadius() {
-        return 10;
+        return radius;
+    }
+    
+    // return player bounds for comparison to objects
+    public Ellipse2D.Double getSphereBounds() {
+        return new Ellipse2D.Double(horizontalCoord - radius, verticalCoord - radius, 2 * radius, 2 * radius);
     }
     
     public void draw (Graphics g) {
     	int playerX = horizontalCoord;
         int playerY = verticalCoord;
-        int playerRadius = 10; 
         
         g.setColor(Color.GREEN);
-        g.fillOval(playerX - playerRadius, playerY - playerRadius, 2 * playerRadius, 2 * playerRadius);
+        g.fillOval(playerX - radius, playerY - radius, 2 * radius, 2 * radius);
     }
     
 }
