@@ -53,7 +53,7 @@ public class Player {
         }
     }
     
-    // landing on platform
+    // if player lands on top of platform
     public void landing() {
         if (isJumping) {
             updateScore(10); // each platform = 10 points
@@ -62,9 +62,14 @@ public class Player {
         }
     }
     
-    // hit an obstacle
+    // hit an obstacle like a rocket
     public void hitObstacle() {
         this.isAlive = false;
+    }
+    
+    // if player hits bottom of a platform
+    public void hitBottomPlatform () {
+    	moveDown(2);
     }
     
     // update player position
@@ -99,16 +104,16 @@ public class Player {
      // check which arrow key was pressed
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                moveUp(moveDistance);
+                moveUp(10);
                 break;
             case KeyEvent.VK_DOWN:
-                moveDown(moveDistance);
+                moveDown(10);
                 break;
             case KeyEvent.VK_LEFT:
-                moveLeft(moveDistance);
+                moveLeft(10);
                 break;
             case KeyEvent.VK_RIGHT:
-                moveRight(moveDistance);
+                moveRight(10);
                 break;
         }
         
