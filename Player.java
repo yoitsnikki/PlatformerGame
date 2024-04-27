@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.Rectangle;
 
 
 /**
@@ -188,6 +189,15 @@ public class Player {
     // return player bounds for comparison to objects
     public Ellipse2D.Double getSphereBounds() {
         return new Ellipse2D.Double(horizontalCoord - radius, verticalCoord - radius, 2 * radius, 2 * radius);
+    }
+    
+    // rocket collision
+    public boolean collidesWithRocket(Rocket rocket) {
+        Ellipse2D.Double playerBounds = getSphereBounds(); 
+        Rectangle rocketBounds = rocket.getBounds();
+
+        // Check if bounds intersect
+        return playerBounds.intersects(rocketBounds);
     }
     
     public void draw (Graphics g) {
