@@ -9,10 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.Rectangle;
-
-/**
- * Class Player
- */
+import java.awt.geom.Rectangle2D;
 
 public class Player {
 	public int score;
@@ -29,8 +26,8 @@ public class Player {
         this.coins = 0;
         this.jumpDist = 0;
         this.isJumping = false;
-        this.verticalCoord = 0;
-        this.horizontalCoord = 0;
+        this.verticalCoord = 500;
+        this.horizontalCoord = 500;
         this.isAlive = true;
         this.radius = 10;
     }
@@ -95,10 +92,10 @@ public class Player {
         return coins;
     }
     
-    // move up
-    public void moveUp(int distance) {
+    // move down
+    public void moveDown(int distance) {
     	int playerRadius = getPlayerRadius();
-        verticalCoord -= distance;
+        verticalCoord += distance;
         jump(distance);
         
         // player bounces off of wall if necessary
@@ -106,13 +103,13 @@ public class Player {
             verticalCoord = playerRadius;
         }
         
-        updatePosition(0, 10); // update position coordinates that are returned
+        updatePosition(0, distance); // update position coordinates that are returned
     }
     
-    // move down
-    public void moveDown(int distance) {
+    // move up
+    public void moveUp(int distance) {
         int playerRadius = getPlayerRadius();
-        verticalCoord += distance;
+        verticalCoord -= distance;
         jump(distance);
         
         // player bounces off of wall if necessary
@@ -120,7 +117,7 @@ public class Player {
             verticalCoord = 1000 - playerRadius;
         }
         
-        updatePosition(0, -10); // update position coordinates that are returned
+        updatePosition(0, -distance); // update position coordinates that are returned
         
     }
     
@@ -135,7 +132,7 @@ public class Player {
             horizontalCoord = playerRadius;
         }
         
-        updatePosition(-10, 0); // update position coordinates that are returned
+        updatePosition(-distance, 0); // update position coordinates that are returned
     }
     
     // move right
@@ -149,7 +146,7 @@ public class Player {
             horizontalCoord = 1000 - playerRadius;
         }
         
-        updatePosition(10, 0); // update position coordinates that are returned
+        updatePosition(distance, 0); // update position coordinates that are returned
     }
     
     // get player radius
@@ -162,15 +159,6 @@ public class Player {
         return new Ellipse2D.Double(horizontalCoord - radius, verticalCoord - radius, 2 * radius, 2 * radius);
     }
     
-    // rocket collision
-    public boolean collidesWithRocket(Rocket rocket) {
-        Ellipse2D.Double playerBounds = getSphereBounds(); 
-        Rectangle rocketBounds = rocket.getBounds();
-
-        // Check if bounds intersect
-        return playerBounds.intersects(rocketBounds);
-    }
-    
     // draw the player
     public void draw (Graphics g) {
     	int playerX = horizontalCoord;
@@ -178,6 +166,20 @@ public class Player {
         
         g.setColor(Color.GREEN);
         g.fillOval(playerX - radius, playerY - radius, 2 * radius, 2 * radius);
+    }
+    
+    public boolean collidesWithPlatform(Rectangle2D platform) {
+        Ellipse2D.Double playerBounds = getSphereBounds(); 
+        Rectangle platformBounds = platform.getBounds();
+        // Check if bounds intersect
+        return playerBounds.intersects(platformBounds);
+    }
+    public boolean collidesWithRocket(Rocket rocket) {
+        Ellipse2D.Double playerBounds = getSphereBounds();
+        Rectangle rocketBounds = rocket.getRocketBounds();
+    
+        // Check if bounds intersect
+        return playerBounds.intersects(rocketBounds);
     }
     
 }
