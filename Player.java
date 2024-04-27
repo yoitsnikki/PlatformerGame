@@ -10,7 +10,6 @@ import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.Rectangle;
 
-
 /**
  * Class Player
  */
@@ -95,34 +94,6 @@ public class Player {
     public int getCoins() {
         return coins;
     }
-
-    
-    // key presses
-    public void keyPressed (KeyEvent e) {
-    	int keyCode = e.getKeyCode();
-        int moveDistance = 10; // dist the player moves when key is pressed
-        
-     // check which arrow key was pressed
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                moveUp(10);
-                break;
-            case KeyEvent.VK_DOWN:
-                moveDown(10);
-                break;
-            case KeyEvent.VK_LEFT:
-                moveLeft(10);
-                break;
-            case KeyEvent.VK_RIGHT:
-                moveRight(10);
-                break;
-        }
-        
-    }
-    
-    public void keyReleased(KeyEvent e) {
-        // handle key releases
-    }
     
     // move up
     private void moveUp(int distance) {
@@ -200,6 +171,7 @@ public class Player {
         return playerBounds.intersects(rocketBounds);
     }
     
+    // draw the player
     public void draw (Graphics g) {
     	int playerX = horizontalCoord;
         int playerY = verticalCoord;
