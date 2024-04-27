@@ -12,6 +12,29 @@ import java.awt.geom.Point2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * @getVerticalCoord: getter for vertical coordinate
+ * @getHorizontalCoord: getter for horizontal coordinate
+ * @getScore: getter for score
+ * @getCoins: getter for coins collected
+ * @updateScore: updates score with points from either platform or coins
+ * @hitObstacle: if player hits an obstacle, they die
+ * @hitBottomPlatform: player moves down 10 if they hit the bottom of the platform
+ * @hitTopPlatform: player moves up 10 if they hit the top of the platform
+ * @updatePosition: takes adjusts player position
+ * @isAlive: returns if player is alive or not
+ * @moveDown: moves player down in respond to key input and checks for wall collision
+ * @moveUp: moves player up in respond to key input and checks for wall collision
+ * @moveLeft: moves player left in respond to key input and checks for wall collision
+ * @moveRight: moves player right in respond to key input and checks for wall collision
+ * @getPlayerRadius: getter for the sphere's radius
+ * @getSphereBounds: gets bounds of sphere
+ * @collidesWithPlatform: checks if player collides with the platforms
+ * @collidesWithPlatformTop: checks which side of the platform the player collides with and calls a method accordingly
+ * @collidesWithRocket: checks if player collides with rocket and calls method accordingly
+ */
+
+
 public class Player {
 	public int score;
 	public int coins;
@@ -50,12 +73,18 @@ public class Player {
         return coins;
     }
 	
-	// keep track of score (should points be part of player class, or separate?)
+    /**
+     * method to keep track of score
+     * @param points
+     */
     public void updateScore(int points) {
         this.score += points;
     }
     
-    // update coins
+    /**
+     * method to keep track of how many coins have been collected
+     * @param collectedCoins
+     */
     public void updateCoins(int collectedCoins) {
         this.coins += collectedCoins;
     }
@@ -94,7 +123,11 @@ public class Player {
     	updateScore(10);
     }
     
-    // update player position
+    /**
+     * method to update player position, taking how much the coordinates should change as input
+     * @param horizontalChange
+     * @param verticalChange
+     */
     public void updatePosition(int horizontalChange, int verticalChange) {
         if (isJumping) {
             this.verticalCoord += verticalChange;
@@ -198,7 +231,6 @@ public class Player {
         	return false;
         }
     }
-    
 
     // if player collides with a rocket
     public boolean collidesWithRocket(Rocket rocket) {
