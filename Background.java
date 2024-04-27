@@ -9,8 +9,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-public class Background extends JPanel{
+import java.awt.geom.Rectangle2D;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
+public class Background extends JPanel implements KeyListener {
     platformCanvas platforms = new platformCanvas();
+    Player player = new Player();
 
 	public ArrayList<Cloud> clouds;
     private static final Color SKY_BLUE = new Color(135, 206, 235);
@@ -58,36 +63,60 @@ public class Background extends JPanel{
         setBackground(SKY_BLUE);
         clouds = new ArrayList<>();
         generateClouds();
-        Timer time = new Timer(1000, new TimerCallback());
-        time.start();
+
+        Timer movePlatforms = new Timer(20, new movePlatformsTimer());
+        movePlatforms.start();
         Timer moveRocket = new Timer(20, new TimerCallback2());
         Timer addRocket = new Timer(5000, new TimerCallback3());
         moveRocket.start();
         addRocket.start();
-        Rocket.addRocket(); //sends the first wave of rockets ahead of the timer
+        Rocket.addRocket();
 
+        setFocusable(true); // Ensure the panel can receive key events
+        addKeyListener(this);
+        
+        // end game if player is not alive anymore
+        if (player.isAlive() == false) {
+        	// game over clause ; stop generating rockets + panels, and print score on middle of screen
+        }
     }
-
     // override and draw clouds when panel is painted
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawClouds(g);
         platforms.drawRectangle(g);
+        player.draw(g);
         Rocket.drawRockets(g);
     }
-    protected class TimerCallback implements ActionListener {
+
+
+    protected class movePlatformsTimer implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-            Color c2 = new Color(255, 255, 0);
-            platformCanvas.setColor(c2);
-          //  platforms.setYCoord(200);
+            boolean m = false;
+            platforms.updateY();
+            for (Rectangle2D platform: platforms.platformsList){
+                m = player.collidesWithPlatform(platform);
+                //if collision is detected then
+                if(m==true){
+                    System.out.println("COLLISION");
+                }
+            }
             repaint();
         }
     }
+
     protected class TimerCallback2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			boolean r = false;
             for (Rocket rocket : Rocket.rockets) {
                 rocket.move();
+                r = player.collidesWithRocket(rocket);
+                if (r==true) {
+                	System.out.println("GAME OVER");
+                	player.hitObstacle();
+                }
+                
             }
             repaint();
         }
@@ -98,4 +127,45 @@ public class Background extends JPanel{
             repaint();
         }
     }
+
+
+    // key presses
+    @Override
+    public void keyPressed (KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        int moveDistance = 10; // dist the player moves when key is pressed
+
+        // check which arrow key was pressed
+        switch (keyCode) {
+            case KeyEvent.VK_UP:
+                player.moveUp(10);
+                break;
+            case KeyEvent.VK_DOWN:
+                player.moveDown(10);
+                break;
+            case KeyEvent.VK_LEFT:
+                player.moveLeft(10);
+                break;
+            case KeyEvent.VK_RIGHT:
+                player.moveRight(10);
+                break;
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // handle key releases
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Handle key typing
+    }
+    // protected class displayTime  implements ActionListener {
+	// 	public void actionPerformed(ActionEvent e) {
+    //         Rocket.addRocket();
+    //         repaint();
+    //     }
+    // }
 }
