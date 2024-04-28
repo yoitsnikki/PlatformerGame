@@ -145,14 +145,16 @@ public class Player {
         return isAlive;
     }
     
+
+    
     // move down
     public void moveDown(int distance) {
     	int playerRadius = getPlayerRadius();
         verticalCoord += distance;
         
         // player bounces off of wall if necessary
-        if (verticalCoord - playerRadius < 0) {
-            verticalCoord = playerRadius;
+        if (verticalCoord + playerRadius > 1000) {
+            verticalCoord = 1000 - playerRadius;
         }
         
         updatePosition(0, verticalCoord); // update position coordinates that are returned
@@ -164,8 +166,8 @@ public class Player {
         verticalCoord -= distance;
         
         // player bounces off of wall if necessary
-        if (verticalCoord + playerRadius > 1000) {
-            verticalCoord = 1000 - playerRadius;
+        if (verticalCoord - playerRadius < 0) {
+            verticalCoord = playerRadius;
         }
         
         updatePosition(0, verticalCoord); // update position coordinates that are returned
@@ -243,6 +245,6 @@ public class Player {
             return false;
         }
         return true;
-    } 
+    }
     
 }
