@@ -155,6 +155,7 @@ public class Player {
         // player bounces off of wall if necessary
         if (verticalCoord + playerRadius > 1000) {
             verticalCoord = 1000 - playerRadius;
+            hitObstacle();
         }
         
         updatePosition(0, verticalCoord); // update position coordinates that are returned
