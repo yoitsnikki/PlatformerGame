@@ -81,24 +81,6 @@ public class Player {
     }
     
     
-    /*
-    // jumping
-    public void jump(int distance) {
-        if (!isJumping) {
-            this.jumpDist = distance;
-            this.isJumping = true;
-        }
-    }
-    
-    // if player lands on top of platform
-    public void landing() {
-        if (isJumping) {
-            updateScore(10); // each platform = 10 points
-            this.isJumping = false;
-            this.jumpDist = 0; // Reset jump distance
-        }
-    }*/
-    
     // hit an obstacle like a rocket
     public void hitObstacle() {
         this.isAlive = false;
