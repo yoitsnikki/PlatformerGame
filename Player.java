@@ -72,6 +72,11 @@ public class Player {
     public int getCoins() {
         return coins;
     }
+    
+    // get player radius
+    private int getPlayerRadius() {
+        return radius;
+    }
 	
     /**
      * method to keep track of score
@@ -150,7 +155,7 @@ public class Player {
             verticalCoord = playerRadius;
         }
         
-        updatePosition(0, distance); // update position coordinates that are returned
+        updatePosition(0, verticalCoord); // update position coordinates that are returned
     }
     
     // move up
@@ -163,7 +168,7 @@ public class Player {
             verticalCoord = 1000 - playerRadius;
         }
         
-        updatePosition(0, -distance); // update position coordinates that are returned
+        updatePosition(0, verticalCoord); // update position coordinates that are returned
         
     }
     
@@ -177,7 +182,7 @@ public class Player {
             horizontalCoord = playerRadius;
         }
         
-        updatePosition(-distance, 0); // update position coordinates that are returned
+        updatePosition(horizontalCoord, 0); // update position coordinates that are returned
     }
     
     // move right
@@ -190,13 +195,9 @@ public class Player {
             horizontalCoord = 1000 - playerRadius;
         }
         
-        updatePosition(distance, 0); // update position coordinates that are returned
+        updatePosition(horizontalCoord, 0); // update position coordinates that are returned
     }
     
-    // get player radius
-    private int getPlayerRadius() {
-        return radius;
-    }
     
     // return player bounds for comparison to objects
     public Ellipse2D.Double getSphereBounds() {
@@ -204,7 +205,7 @@ public class Player {
     }
     
     // draw the player
-    public void draw (Graphics g) {
+    public void drawPlayer (Graphics g) {
     	int playerX = horizontalCoord;
         int playerY = verticalCoord;
         
@@ -239,9 +240,9 @@ public class Player {
 
         if (playerBounds.intersects(rocketBounds)) {
             hitObstacle();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     } 
     
 }
