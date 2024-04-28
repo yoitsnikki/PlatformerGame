@@ -9,14 +9,17 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Coins {
-	private int x;
-    private int y;
-    private int radius;
-    private boolean active;
+	int x, y;
+    static int radius;
+    static boolean active;
+    public static ArrayList<Coins> coinsList = new ArrayList<>();
 
-    public void Coin (int x, int y) {
+    public Coins (int x, int y) {
         this.x = x;
         this.y = y;
         this.radius = 5;
@@ -33,12 +36,28 @@ public class Coins {
         this.active = active;
     }
     
+    // getters for x and y coordinates
+    public int getCoinX() {
+        return x;
+    }
+
+    public int getCoinY() {
+        return y;
+    }
+    
+    // return array list
+    public static ArrayList<Coins> returnCoinsList() {
+    	return coinsList;
+    }
+    
     // draw the coin
-    public void draw(Graphics g) {
-        if (active) {
+    public static void drawCoins(Graphics g) {
         	g.setColor(Color.YELLOW);
-        	g.fillOval(x - radius, y - radius, 2 * radius, 2 * radius); // Draw filled oval
-        }
+        	for (Coins coin : coinsList) {
+        		if (active) {
+        		g.fillOval(coin.getCoinX() - radius, coin.getCoinY() - radius, 2 * radius, 2 * radius); // Draw filled oval
+        		}
+        	}
     }
     
     // check for collision with a player
@@ -52,13 +71,24 @@ public class Coins {
         return distance < (player.getPlayerRadius() + radius);
     }
     
-    // check collision with player and adjust player score accordingly
+    // check collision with player and adjust player score accordingly (run on timer with platforms)
     public void checkCollisionWithPlayer(Player player) {
         if (active && collidesWithPlayer(player)) {
-            player.updateScore(25); // Increase player's score by 50 when collision occurs
-            setActive(false); // Make the coin inactive (disappear)
+            player.updateScore(25); // increase player's score by 25 when collision occurs
+            setActive(false); // make the coin inactive (disappear)
         }
     }
     
+    // generate random list of coins
+    public static void generateCoins() {
+		int numCoins = 15; // Random number of coins
+        for (int i = 0; i < numCoins; i++) {
+        	Random random = new Random();
+            // generate random coordinates for the coin within the game boundaries
+            int coinX = random.nextInt(1000 - (2 * radius)) + radius;
+            int coinY = random.nextInt(1000 - (2 * radius)) + radius;
+            coinsList.add(new Coins(coinX, coinY)); // create and add coin to the list
+        }
+    }
     
 }
