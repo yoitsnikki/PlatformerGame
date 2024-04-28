@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
@@ -37,7 +36,6 @@ import java.awt.geom.Rectangle2D;
 
 public class Player {
 	public int score;
-	public int coins;
 	public int jumpDist;
 	public boolean isJumping;
 	public int verticalCoord;
@@ -47,7 +45,6 @@ public class Player {
 	
 	public Player() {
         this.score = 0;
-        this.coins = 0;
         this.jumpDist = 0;
         this.isJumping = false;
         this.verticalCoord = 500;
@@ -69,12 +66,9 @@ public class Player {
         return score;
     }
 
-    public int getCoins() {
-        return coins;
-    }
     
     // get player radius
-    private int getPlayerRadius() {
+    public int getPlayerRadius() {
         return radius;
     }
 	
@@ -86,13 +80,6 @@ public class Player {
         this.score += points;
     }
     
-    /**
-     * method to keep track of how many coins have been collected
-     * @param collectedCoins
-     */
-    public void updateCoins(int collectedCoins) {
-        this.coins += collectedCoins;
-    }
     
     /*
     // jumping
@@ -115,6 +102,7 @@ public class Player {
     // hit an obstacle like a rocket
     public void hitObstacle() {
         this.isAlive = false;
+        System.out.println("hit obstacle triggered");
     }
     
     // if player hits bottom of a platform
@@ -146,7 +134,6 @@ public class Player {
     }
     
 
-    
     // move down
     public void moveDown(int distance) {
     	int playerRadius = getPlayerRadius();
@@ -243,9 +230,9 @@ public class Player {
 
         if (playerBounds.intersects(rocketBounds)) {
             hitObstacle();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
     
 }
