@@ -84,7 +84,6 @@ public class Player {
     // hit an obstacle like a rocket
     public void hitObstacle() {
         this.isAlive = false;
-        System.out.println("hit obstacle triggered");
     }
     
     // if player hits bottom of a platform
