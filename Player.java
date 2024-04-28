@@ -153,8 +153,8 @@ public class Player {
         verticalCoord += distance;
         
         // player bounces off of wall if necessary
-        if (verticalCoord + playerRadius > 1000) {
-            verticalCoord = 1000 - playerRadius;
+        if (verticalCoord + playerRadius >= 950) {
+            verticalCoord = 950 - playerRadius;
             hitObstacle();
         }
         
@@ -167,7 +167,7 @@ public class Player {
         verticalCoord -= distance;
         
         // player bounces off of wall if necessary
-        if (verticalCoord - playerRadius < 0) {
+        if (verticalCoord - playerRadius <= 0) {
             verticalCoord = playerRadius;
         }
         
@@ -181,7 +181,7 @@ public class Player {
         horizontalCoord -= distance;
         
         // player bounces off of wall if necessary
-        if (horizontalCoord - playerRadius < 0) {
+        if (horizontalCoord - playerRadius <= 0) {
             horizontalCoord = playerRadius;
         }
         
@@ -194,7 +194,7 @@ public class Player {
         horizontalCoord += distance;
         
         // player bounces off of wall if necessary
-        if (horizontalCoord + playerRadius > 1000) {
+        if (horizontalCoord + playerRadius >= 1000) {
             horizontalCoord = 1000 - playerRadius;
         }
         
